@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Un detalle especial para ti</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #feeaf0 0%, #fbc2eb 100%);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- PANTALLA DE INICIO --- */
+        #pantalla-inicio {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #feeaf0 0%, #fbc2eb 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 1.2s ease, visibility 1.2s;
+        }
+
+        .boton-abrir {
+            padding: 18px 45px;
+            font-size: 1.4rem;
+            background: linear-gradient(45deg, #ff6584, #ff8eaf);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 101, 132, 0.4);
+            transition: all 0.4s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .boton-abrir:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 101, 132, 0.6);
+        }
+
+        /* --- JARDÍN PRINCIPAL --- */
+        #jardin {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 1.8s ease 0.3s, transform 1.8s ease 0.3s;
+            width: 100%;
+            height: 100%;
+        }
+
+        h1 {
+            color: #bd3b56;
+            font-size: 2.2rem;
+            margin-bottom: 60px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            opacity: 0;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* --- CONTENEDOR DE FLORES --- */
+        .contenedor-flores {
+            display: flex;
+            gap: 80px;
+            justify-content: center;
+            align-items: flex-end;
+            height: 380px;
+            position: relative;
+        }
+
+        .flor {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0);
+            transition: transform 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* --- DISEÑO DE LOS PÉTALOS (Capa por Capa) --- */
+        .grupo-petalos {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .petalo {
+            position: absolute;
+            width: 45px;
+            height: 75px;
+            background: linear-gradient(to top, #ff5e7e, #ff9ebb);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: bottom center;
+            bottom: 70px;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Configuración geométrica de los pétalos */
+        .p1  { transform: rotate(0deg); }
+        .p2  { transform: rotate(30deg); }
+        .p3  { transform: rotate(60deg); }
+        .p4  { transform: rotate(90deg); }
+        .p5  { transform: rotate(120deg); }
+        .p6  { transform: rotate(150deg); }
+        .p7  { transform: rotate(180deg); }
+        .p8  { transform: rotate(210deg); }
+        .p9  { transform: rotate(240deg); }
+        .p10 { transform: rotate(270deg); }
+        .p11 { transform: rotate(300deg); }
+        .p12 { transform: rotate(330deg); }
+
+        /* Variación para la flor central (Tonos Dorados/Girasol) */
+        .flor-centro .petalo {
+            background: linear-gradient(to top, #ff9f43, #feca57);
+            width: 42px;
+            height: 80px;
+        }
+
+        /* --- CENTRO DE LA FLOR --- */
+        .centro {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #f39c12 0%, #d35400 100%);
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15), inset 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        .flor-centro .centro {
+            background: radial-gradient(circle, #5c3d11 0%, #2d1e08 100%);
+            width: 55px;
+            height: 55px;
+        }
+
+        /* --- TALLO --- */
+        .tallo {
+            width: 10px;
+            height: 240px;
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+            border-radius: 5px;
+            margin-top: -10px;
+            position: relative;
+            z-index: 1;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        /* --- HOJAS REALISTAS --- */
+        .hoja {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+            border-radius: 0 25px 0 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .hoja-izq {
+            left: -42px;
+            top: 70px;
+            transform: rotate(-25deg);
+        }
+
+        .hoja-der {
+            right: -42px;
+            top: 120px;
+            transform: rotate(25deg) scaleX(-1);
+        }
+
+        /* --- ANIMACIONES AL ACTIVAR --- */
+        .activo #pantalla-inicio {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .activo #jardin {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .activo .flor {
+            transform: scale(1);
+        }
+
+        .activo .flor:nth-child(1) { transition-delay: 0.4s; }
+        .activo .flor:nth-child(2) { transition-delay: 0.8s; }
+        .activo .flor:nth-child(3) { transition-delay: 1.2s; }
+
+        .activo h1 {
+            animation: aparecerTexto 1.5s ease forwards 1.8s;
+        }
+
+        @keyframes aparecerTexto {
+            to { opacity: 1; }
+        }
+
+        /* Efecto sutil de balanceo para que cobren vida */
+        .flor {
+            animation: balanceo 4s ease-in-out infinite alternate;
+        }
+        .flor:nth-child(2) { animation-delay: 1s; }
+        .flor:nth-child(3) { animation-delay: 0.5s; }
+
+        @keyframes balanceo {
+            0% { transform: rotate(-2deg) scale(1); }
+            100% { transform: rotate(2deg) scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla con el botón de abrir -->
+    <div id="pantalla-inicio">
+        <button class="boton-abrir" onclick="abrirDetalle()">Abrir tu detalle ✨</button>
+    </div>
+
+    <!-- Contenido del Jardín -->
+    <div id="jardin">
+        <h1>Para alguien muy especial 🌸</h1>
+        
+        <div class="contenedor-flores">
+            <!-- Flor Izquierda (Rosa) -->
+            <div class="flor">
+                <div class="grupo-petalos">
+                    <div class="centro"></div>
+                    <div class="petalo p1"></div><div class="petalo p2"></div>
+                    <div class="petalo p3"></div><div class="petalo p4"></div>
+                    <div class="petalo p5"></div><div class="petalo p6"></div>
+                    <div class="petalo p7"></div><div class="petalo p8"></div>
+                    <div class="petalo p9"></div><div class="petalo p10"></div>
+                    <div class="petalo p11"></div><div class="petalo p12"></div>
+                </div>
+                <div class="tallo">
+                    <div class="hoja hoja-izq"></div>
+                </div>
+            </div>
+
+            <!-- Flor Central (Girasol Dorado) -->
+            <div class="flor flor-centro">
+                <div class="grupo-petalos">
+                    <div class="centro"></div>
+                    <div class="petalo p1"></div><div class="petalo p2"></div>
+                    <div class="petalo p3"></div><div class="petalo p4"></div>
+                    <div class="petalo p5"></div><div class="petalo p6"></div>
+                    <div class="petalo p7"></div><div class="petalo p8"></div>
+                    <div class="petalo p9"></div><div class="petalo p10"></div>
+                    <div class="petalo p11"></div><div class="petalo p12"></div>
+                </div>
+                <div class="tallo">
+                    <div class="hoja hoja-izq"></div>
+                    <div class="hoja hoja-der"></div>
+                </div>
+            </div>
+
+            <!-- Flor Derecha (Rosa) -->
+            <div class="flor">
+                <div class="grupo-petalos">
+                    <div class="centro"></div>
+                    <div class="petalo p1"></div><div class="petalo p2"></div>
+                    <div class="petalo p3"></div><div class="petalo p4"></div>
+                    <div class="petalo p5"></div><div class="petalo p6"></div>
+                    <div class="petalo p7"></div><div class="petalo p8"></div>
+                    <div class="petalo p9"></div><div class="petalo p10"></div>
+                    <div class="petalo p11"></div><div class="petalo p12"></div>
+                </div>
+                <div class="tallo">
+                    <div class="hoja hoja-der"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirDetalle() {
+            document.body.classList.add('activo');
+        }
+    </script>
+</body>
+</html>
